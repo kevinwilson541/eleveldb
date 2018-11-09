@@ -24,10 +24,13 @@
 -export([open/2,
          close/1,
          get/3,
+         async_get/4,
          put/4,
          async_put/5,
          delete/3,
+         async_delete/4,
          write/3,
+         async_write/4,
          fold/4,
          fold_keys/4,
          status/2,
@@ -195,6 +198,12 @@ async_put(Ref, Context, Key, Value, Opts) ->
     Updates = [{put, Key, Value}],
     async_write(Context, Ref, Updates, Opts),
     ok.
+
+-spec async_delete(db_ref(), reference(), binary(), write_options()) -> ok.
+async_delete(Ref, Context, Key, Opts) ->
+  Updates = [{delete, Key}],
+  async_write(Context, Ref, Updates, Opts),
+  ok.
 
 -spec async_write(reference(), db_ref(), write_actions(), write_options()) -> ok.
 async_write(_CallerRef, _Ref, _Updates, _Opts) ->
